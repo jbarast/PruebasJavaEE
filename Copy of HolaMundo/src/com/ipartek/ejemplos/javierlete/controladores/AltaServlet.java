@@ -23,11 +23,13 @@ import com.ipartek.ejemplos.javierlete.tipos.Usuario;
  */
 @WebServlet("/alta")
 public class AltaServlet extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
 
 	// variables.
 
 	/* package */static final String RUTA_ALTA = LoginServlet.RUTA + "alta.jsp";
+	/* package */static final String USUARIOS_DAL = "usuariosDAL";
 
 	/**
 	 * 
@@ -67,24 +69,41 @@ public class AltaServlet extends HttpServlet {
 
 		boolean hayDatos = nombre != null && pass != null && pass2 != null;
 		boolean datosCorrectos = validarDato(nombre) && validarDato(pass) && validarDato(pass2);
+		boolean passIguales = pass != null && pass.equals(pass2); // Para que no
+																	// haiga
+																	// nullPointerException
+																	// se pone
+																	// el pass
+																	// != null,
+																	// para que
+																	// salte.
 
 		if (!hayDatos) {
 			// request.getRequestDispatcher(RUTA_ALTA).forward(request,response);
 		} else if (!datosCorrectos) {
+			// Error.
+			usuario.setErrores("Los datos no son correctos.");
+			// Accion a realizar.
 			request.setAttribute("usuario", usuario);
 			// request.getRequestDispatcher(RUTA_ALTA).forward(request,response);
+
+		} else if (!passIguales) {
+			// Error.
+			usuario.setErrores("La contraseña deben ser iguales");
+			// Accion a realizar.
+			request.setAttribute("usuario", usuario);
 
 		} else {
 			ServletContext application = request.getServletContext();
 
-			UsuariosDAL usuariosDAL = (UsuariosDAL) application.getAttribute("usuariosDAL");
+			UsuariosDAL usuariosDAL = (UsuariosDAL) application.getAttribute(USUARIOS_DAL);
 
 			if (usuariosDAL == null) {
 				usuariosDAL = new UsuariosDALFijo();
 			}
 
 			usuariosDAL.alta(usuario);
-			application.setAttribute("usuariosDAL", usuariosDAL);
+			application.setAttribute(USUARIOS_DAL, usuariosDAL);
 			// request.getRequestDispatcher(RUTA_ALTA).forward(request,response);
 		}
 

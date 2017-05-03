@@ -2,6 +2,7 @@ package com.ipartek.ejemplos.javierlete.controladores;
 
 import java.io.IOException;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -50,9 +51,17 @@ public class LoginServlet extends HttpServlet {
 		// Llamada a lógica de negocio
 		UsuariosDAL usuarioDAL = new UsuariosDALFijo();
 
+		ServletContext application = request.getServletContext();
+
+		UsuariosDAL usuariosDAL = (UsuariosDAL) application.getAttribute(AltaServlet.USUARIOS_DAL);
+
+		if (usuariosDAL == null) {
+			usuariosDAL = new UsuariosDALFijo();
+		}
+
 		// Sólo para crear una base de datos falsa con el
 		// contenido de un usuario "javi", "lete"
-		usuarioDAL.alta(new Usuario("javi", "lete"));
+		// usuarioDAL.alta(new Usuario("javi", "lete"));
 
 		HttpSession session = request.getSession();
 		session.setMaxInactiveInterval(TIEMPO_INACTIVIDAD);
