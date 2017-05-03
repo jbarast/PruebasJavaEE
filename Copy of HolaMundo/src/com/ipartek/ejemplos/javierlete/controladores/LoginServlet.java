@@ -18,13 +18,13 @@ import com.ipartek.ejemplos.javierlete.tipos.Usuario;
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private static final String RUTA = "/WEB-INF/vistas/";
+	/* package */static final String RUTA = "/WEB-INF/vistas/";
 	private static final String RUTA_PRINCIPAL = RUTA + "principal.jsp";
 	private static final String RUTA_LOGIN = RUTA + "login.jsp";
 
-	private static final int TIEMPO_INACTIVIDAD = 30 * 60;
+	public static final int TIEMPO_INACTIVIDAD = 30 * 60;
 
-	private static final int MINIMO_CARACTERES = 4; // Minimo numero de
+	/* package */static final int MINIMO_CARACTERES = 4; // Minimo numero de
 
 	// caracteres que tiene que
 	// tener el nombre y el
