@@ -1,6 +1,7 @@
 @CHARSET "UTF-8";
 body {
-	font-family: Arial, sans-serif; /* serif, monospace */
+	/*font-family: Arial, sans-serif; /* serif, monospace */
+	font-family: "Noto Sans";
 }
 label {
 	display: inline-block;
@@ -13,4 +14,8 @@ input {
 	color: red;
 	font-weight: bold;
 	font-variant: small-caps;
+}
+
+header,footer{
+	background-color: lightgray;
 }
