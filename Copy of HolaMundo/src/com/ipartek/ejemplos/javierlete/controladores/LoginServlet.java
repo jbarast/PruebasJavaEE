@@ -49,7 +49,6 @@ public class LoginServlet extends HttpServlet {
 		usuario.setPass(pass);
 
 		// Llamada a lógica de negocio
-		UsuariosDAL usuarioDAL = new UsuariosDALFijo();
 
 		ServletContext application = request.getServletContext();
 
@@ -78,7 +77,7 @@ public class LoginServlet extends HttpServlet {
 		// }
 
 		// ESTADOS
-		boolean esValido = usuarioDAL.validar(usuario);
+		boolean esValido = usuariosDAL.validar(usuario);
 
 		boolean sinParametros = usuario.getNombre() == null;
 
