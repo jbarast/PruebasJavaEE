@@ -21,5 +21,12 @@
 			<p class="errores">${usuario.errores}</p>
 		</fieldset>
 	</form>
+	
+	<%--Para redirigir el alta al login. --%>
+	<form action="login" method="post">
+	   <fieldset>
+	      <input type="submit" value="Login"/>
+	   </fieldset>
+	</form>
 
 	<%@include file="includes/pie.jsp" %>
