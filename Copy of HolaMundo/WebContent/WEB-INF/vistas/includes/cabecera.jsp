@@ -1,9 +1,17 @@
+<%--cabecera.jsp --%>
+
+<%--Jsp cabezera del proyecto PruebasWeb02Zalla. --%>
+<%--author: jbarast --%>
+<%--version: 04/05/2017 --%>
+
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html >
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<%--Cargamos el archivo estilos.css --%>
 <link rel="stylesheet" href="css/estilos.css" />
 <title>Ejemplo MVC</title>
 </head>
