@@ -20,8 +20,9 @@ public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/* package */static final String RUTA = "/WEB-INF/vistas/";
-	private static final String RUTA_PRINCIPAL = RUTA + "principal.jsp";
+	// private static final String RUTA_PRINCIPAL = RUTA + "principal.jsp";
 	private static final String RUTA_LOGIN = RUTA + "login.jsp";
+	public static final String RUTA_CHAT = RUTA + "chat.jsp";
 
 	public static final int TIEMPO_INACTIVIDAD = 30 * 60;
 
@@ -94,7 +95,7 @@ public class LoginServlet extends HttpServlet {
 			session.invalidate();
 			request.getRequestDispatcher(RUTA_LOGIN).forward(request, response);
 		} else if (esUsuarioYaRegistrado) {
-			request.getRequestDispatcher(RUTA_PRINCIPAL).forward(request, response);
+			request.getRequestDispatcher(RUTA_CHAT).forward(request, response);
 		} else if (sinParametros) {
 			request.getRequestDispatcher(RUTA_LOGIN).forward(request, response);
 		} else if (!nombreValido || !passValido) {
@@ -108,7 +109,7 @@ public class LoginServlet extends HttpServlet {
 		} else if (esValido) {
 			session.setAttribute("usuario", usuario);
 			// response.sendRedirect("principal.jsp");
-			request.getRequestDispatcher(RUTA_PRINCIPAL).forward(request, response);
+			request.getRequestDispatcher(RUTA_CHAT).forward(request, response);
 		} else {
 			usuario.setErrores("El usuario y contraseña introducidos no son válidos");
 			request.setAttribute("usuario", usuario);
