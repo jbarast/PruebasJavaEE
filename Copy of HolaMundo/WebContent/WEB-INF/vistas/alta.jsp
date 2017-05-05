@@ -1,20 +1,14 @@
-<%--alta.jsp --%>
+<%@ include file="includes/cabecera.jsp" %>
 
-<%--Jsp para dar de alta a usuarios. --%>
-<%--author: jbarast --%>
-<%--version: 04/05/2017 --%>
-
-<%@include file="includes/cabecera.jsp" %>
-
-    <%--Cargamos la clase Usuario. --%>
+	<h2>Alta de usuarios</h2>
+	
 	<jsp:useBean id="usuario" scope="request"
 		class="com.ipartek.ejemplos.javierlete.tipos.Usuario" />
 
-    <%--Para dar de alta a los usuarios. --%>
 	<form action="alta" method="post">
 		<fieldset>
-			<label for="nombre">Nombre</label> <input id="nombre" name="nombre" requiered="required" minlength="4"
-				value="${usuario.nombre}" />
+			<label for="nombre">Nombre</label> <input id="nombre" name="nombre"
+			  required="required" minlength="4" value="${usuario.nombre}" />
 		</fieldset>
 		<fieldset>
 			<label for="pass">Contraseña</label> <input type="password" id="pass"
@@ -30,11 +24,4 @@
 		</fieldset>
 	</form>
 	
-	<%--Para redirigir el alta al login. --%>
-	<form action="login" method="post">
-	   <fieldset>
-	      <input type="submit" value="Login"/>
-	   </fieldset>
-	</form>
-
-	<%@include file="includes/pie.jsp" %>
+<%@ include file="includes/pie.jsp" %>
