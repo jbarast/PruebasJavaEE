@@ -11,33 +11,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.ipartek.ejemplos.javierlete.dal.DALFactory;
 import com.ipartek.ejemplos.javierlete.dal.UsuariosDAL;
 import com.ipartek.ejemplos.javierlete.tipos.Usuario;
-import com.ipartek.ejemplos.jonBarnes.dal.DALFactory;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/* package */static final String RUTA = "/WEB-INF/vistas/";
-	// private static final String RUTA_PRINCIPAL = RUTA + "principal.jsp";
+	private static final String RUTA_PRINCIPAL = RUTA + "principal.jsp";
 	private static final String RUTA_LOGIN = RUTA + "login.jsp";
-	public static final String RUTA_CHAT = RUTA + "chat.jsp";
 
 	public static final int TIEMPO_INACTIVIDAD = 30 * 60;
 
-	/* package */static final int MINIMO_CARACTERES = 4; // Minimo numero de
-
-	// caracteres que tiene que
-	// tener el nombre y el
-	// pass.
+	/* package */static final int MINIMO_CARACTERES = 4;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-			IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// Recoger datos de vistas
 		String nombre = request.getParameter("nombre");
 		String pass = request.getParameter("pass");
@@ -50,7 +44,6 @@ public class LoginServlet extends HttpServlet {
 		usuario.setPass(pass);
 
 		// Llamada a lógica de negocio
-
 		ServletContext application = request.getServletContext();
 
 		UsuariosDAL usuariosDAL = (UsuariosDAL) application.getAttribute(AltaServlet.USUARIOS_DAL);
@@ -87,7 +80,6 @@ public class LoginServlet extends HttpServlet {
 		boolean quiereSalir = "logout".equals(opcion);
 
 		boolean nombreValido = usuario.getNombre() != null && usuario.getNombre().length() >= MINIMO_CARACTERES;
-
 		boolean passValido = !(usuario.getPass() == null || usuario.getPass().length() < MINIMO_CARACTERES);
 
 		// Redirigir a una nueva vista
@@ -95,21 +87,17 @@ public class LoginServlet extends HttpServlet {
 			session.invalidate();
 			request.getRequestDispatcher(RUTA_LOGIN).forward(request, response);
 		} else if (esUsuarioYaRegistrado) {
-			request.getRequestDispatcher(RUTA_CHAT).forward(request, response);
+			request.getRequestDispatcher(RUTA_PRINCIPAL).forward(request, response);
 		} else if (sinParametros) {
 			request.getRequestDispatcher(RUTA_LOGIN).forward(request, response);
 		} else if (!nombreValido || !passValido) {
-
-			usuario.setErrores(String.format(
-					"El nombre y la pass deben tener como mínimo %d caracteres y son ambos requeridos",
-					MINIMO_CARACTERES));
+			usuario.setErrores("El nombre y la pass deben tener como mínimo " + MINIMO_CARACTERES + " caracteres y son ambos requeridos");
 			request.setAttribute("usuario", usuario);
 			request.getRequestDispatcher(RUTA_LOGIN).forward(request, response);
-
 		} else if (esValido) {
 			session.setAttribute("usuario", usuario);
 			// response.sendRedirect("principal.jsp");
-			request.getRequestDispatcher(RUTA_CHAT).forward(request, response);
+			request.getRequestDispatcher(RUTA_PRINCIPAL).forward(request, response);
 		} else {
 			usuario.setErrores("El usuario y contraseña introducidos no son válidos");
 			request.setAttribute("usuario", usuario);

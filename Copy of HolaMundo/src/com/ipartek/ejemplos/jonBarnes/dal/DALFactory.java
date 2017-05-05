@@ -1,6 +1,7 @@
 package com.ipartek.ejemplos.jonBarnes.dal;
 
 import com.ipartek.ejemplos.javierlete.dal.UsuariosDAL;
+import com.ipartek.ejemplos.javierlete.tipos.Usuario;
 
 /**
  * 
@@ -11,6 +12,10 @@ import com.ipartek.ejemplos.javierlete.dal.UsuariosDAL;
  *
  */
 public class DALFactory {
+
+	
+
+		
 
 	public static UsuariosDAL getUsuariosDAL() {
 		return new UsuariosDALCol();

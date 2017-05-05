@@ -1,5 +1,3 @@
-//AltaServlet.java
-
 package com.ipartek.ejemplos.javierlete.controladores;
 
 import java.io.IOException;
@@ -11,119 +9,71 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ipartek.ejemplos.javierlete.dal.DALFactory;
+import com.ipartek.ejemplos.javierlete.dal.UsuarioYaExistenteDALException;
 import com.ipartek.ejemplos.javierlete.dal.UsuariosDAL;
 import com.ipartek.ejemplos.javierlete.tipos.Usuario;
-import com.ipartek.ejemplos.jonBarnes.dal.DALFactory;
 
-/**
- * 
- * Servlet creado para gestinoar la alta de usuario de la pagina web.
- * 
- * @author jbarast
- * @version 03/05/2017
- *
- */
 @WebServlet("/alta")
 public class AltaServlet extends HttpServlet {
+	/* package */static final String USUARIOS_DAL = "usuariosDAL";
 
 	private static final long serialVersionUID = 1L;
 
-	// variables.
-
 	/* package */static final String RUTA_ALTA = LoginServlet.RUTA + "alta.jsp";
-	/* package */static final String USUARIOS_DAL = "usuariosDAL";
 
-	/**
-	 * 
-	 * El metodo doGest() llama al metodo doPost();
-	 * 
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		doPost(request, response);
 	}
 
-	/**
-	 * 
-	 * Metodo que recoge los datos del formulario, comprueba que son aptos y si
-	 * lo son da de alta al usuario.
-	 * 
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-			IOException {
-
-		// Recoger todos los datos.
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String nombre = request.getParameter("nombre");
 		String pass = request.getParameter("pass");
 		String pass2 = request.getParameter("pass2");
 
-		// Iniciamos el usuario.
+		// Inicio sin datos: mostrar formulario
+		// Datos incorrectos: sin rellenar, límite de caracteres, no coinciden contraseñas
+		// Las contraseñas deben ser iguales
+		// Datos correctos: guardar
+
 		Usuario usuario = new Usuario(nombre, pass);
 
-		// Inicio de datos.
-		// Datos incorrectos. sin rellenar, limite de caracteres, no coinciden
-		// contraseñas.
-		// Datos correctos: guardar.
-
 		boolean hayDatos = nombre != null && pass != null && pass2 != null;
-		boolean datosCorrectos = validarDato(nombre) && validarDato(pass) && validarDato(pass2);
-		boolean passIguales = pass != null && pass.equals(pass2); // Para que no
-																	// haiga
-																	// nullPointerException
-																	// se pone
-																	// el pass
-																	// != null,
-																	// para que
-																	// salte.
+		boolean datosCorrectos = validarCampo(nombre) && validarCampo(pass) && validarCampo(pass2);
+		boolean passIguales = pass != null && pass.equals(pass2);
 
-		if (!hayDatos) {
-			// request.getRequestDispatcher(RUTA_ALTA).forward(request,response);
-		} else if (!datosCorrectos) {
-			// Error.
-			usuario.setErrores("Los datos no son correctos.");
-			// Accion a realizar.
-			request.setAttribute("usuario", usuario);
-			// request.getRequestDispatcher(RUTA_ALTA).forward(request,response);
+		if (hayDatos) {
+			if (!datosCorrectos) {
+				usuario.setErrores("Todos los campos son requeridos y con un mínimo de " + LoginServlet.MINIMO_CARACTERES + " caracteres");
+				request.setAttribute("usuario", usuario);
+			} else if (!passIguales) {
+				usuario.setErrores("Las contraseñas deben ser iguales");
+				request.setAttribute("usuario", usuario);
+			} else {
+				ServletContext application = request.getServletContext();
 
-		} else if (!passIguales) {
-			// Error.
-			usuario.setErrores("La contraseña deben ser iguales");
-			// Accion a realizar.
-			request.setAttribute("usuario", usuario);
+				UsuariosDAL usuariosDAL = (UsuariosDAL) application.getAttribute(USUARIOS_DAL);
 
-		} else {
-			ServletContext application = request.getServletContext();
+				if (usuariosDAL == null) {
+					usuariosDAL = DALFactory.getUsuariosDAL();
+				}
 
-			UsuariosDAL usuariosDAL = (UsuariosDAL) application.getAttribute(USUARIOS_DAL);
+				try {
+					usuariosDAL.alta(usuario);
+				} catch (UsuarioYaExistenteDALException de) {
+					usuario.setNombre("");
+					usuario.setErrores("El usuario ya existe. Elige otro");
+					request.setAttribute("usuario", usuario);
+				}
 
-			if (usuariosDAL == null) {
-				usuariosDAL = DALFactory.getUsuariosDAL();
+				application.setAttribute(USUARIOS_DAL, usuariosDAL);
 			}
-
-			usuariosDAL.alta(usuario);
-			application.setAttribute(USUARIOS_DAL, usuariosDAL);
-			// request.getRequestDispatcher(RUTA_ALTA).forward(request,response);
 		}
-
-		// Redicionamiento.
 		request.getRequestDispatcher(RUTA_ALTA).forward(request, response);
-
 	}
 
-	/**
-	 * 
-	 * Metodo para saber si el campo que metemos es valido segun nuestros
-	 * parametros.
-	 * 
-	 * @param campo
-	 *            Campo que queremos ver que es valido.
-	 * @return Devuelve true si el campo es valido o false si no es valido.
-	 */
-	private boolean validarDato(String campo) {
+	private boolean validarCampo(String campo) {
 		return campo != null && campo.length() >= LoginServlet.MINIMO_CARACTERES;
 	}
+
 }
