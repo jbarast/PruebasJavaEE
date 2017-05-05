@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ipartek.jonBarnes.tipos.PilaUsuarios;
+
 /**
  * Servlet para gestionar el chat.
  * 
@@ -52,11 +54,14 @@ public class ChatServlet extends HttpServlet {
 		// ///
 		// Inicio la aplicacion.
 		ServletContext ChatApplication = request.getServletContext();
-		String todosTexto = (String) ChatApplication.getAttribute("texto");
+		// String todosTexto = (String) ChatApplication.getAttribute("texto");
+		pilaChat = (Stack<String>) ChatApplication.getAttribute("texto");
 
-		// Mostramos los datos de toda la pila.
+		// Creamos el objeto pila.
+		PilaUsuarios pilaUsuarios = new PilaUsuarios(pilaChat);
 
-		System.out.println(todosTexto);
+		// Para imprimir los elementos del stack
+
 	}
 
 }

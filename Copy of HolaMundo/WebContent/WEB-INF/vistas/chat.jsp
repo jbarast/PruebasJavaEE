@@ -10,6 +10,10 @@
 
 <%--Rellenamos el texto a añadir al chat. --%>
 
+<%--Cargamos la clase PilaUsuario. --%>
+	<jsp:useBean id="PilaUsuario" scope="request"
+		class="com.ipartek.jonBarnes.tipos.PilaUsuarios" />
+
 <form>
 <fieldset>
 			<label for="texto">Respuesta: </label> <input  id="texto"
@@ -25,6 +29,10 @@
 
 
 <%--Visualizamos el texto. --%>
+
+<h2>Chat</h2>
+
+<p>${PilaUsuario.getPilaChat() } </p>
 
 
 
