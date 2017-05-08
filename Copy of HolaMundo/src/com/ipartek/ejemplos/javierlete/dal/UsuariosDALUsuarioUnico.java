@@ -16,4 +16,30 @@ public class UsuariosDALUsuarioUnico implements UsuariosDAL {
 		return this.usuario != null && this.usuario.equals(usuario);
 	}
 
+	// Falta por rellenar, no son del todo necesarios que re rellenen.
+
+	@Override
+	public void modificar(Usuario usuario) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void borrar(Usuario usuario) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public Usuario buscarPorId(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Usuario[] buscarTodosLosUsuarios() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
