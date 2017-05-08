@@ -72,10 +72,27 @@ public class UsuariosDALColeccion implements UsuariosDAL {
 	 */
 	@Override
 	public Usuario[] buscarTodosLosUsuarios() {
+		// Lo hacemos con un for.
+
+		// Creamos el array que saldra.
+		Usuario[] arrUsuarios = new Usuario[usuarios.size()];
+
+		// Hacemos un for.
+		int i = 0;
+		for (Usuario usuario : usuarios.values()) {
+			arrUsuarios[i++] = usuario;
+		}
+
+		// El return.
+		return arrUsuarios;
+
+		// Otro metodo.
+		// return usuarios.values().toArray(new Usuario[usuarios.size()]);
+
 		// El new Usuario[0], es un truco para que me genere siempre un Array
 		// con los datos.
 		// Estructura rara de Java.
-		return usuarios.entrySet().toArray(new Usuario[0]);
+		// return usuarios.entrySet().toArray(new Usuario[0]);
 		// return (Usuario[]) usuarios.entrySet().toArray(); // Asi no funciona.
 	}
 

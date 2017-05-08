@@ -18,7 +18,10 @@ Version: 08/05/2017
 
 <h2>Mantenimiento de usuarios</h2>
 
+<%--Tabla a crear. --%>
 <table border="1">
+
+<%--Cabecera de la tabla. --%>
 	<thead>
 		<tr>
 			<th>Operaciones</th>
@@ -26,13 +29,16 @@ Version: 08/05/2017
 			<th>Contraseña</th>
 		</tr>
 	</thead>
+<%--Cuerpo de la tabla. --%>	
 	<tbody>
-	
-		<tr>
-			<td><a href="?op=modificar">Modificar</a><a href="?op=borrar">Borrar</a></td>
-			<td>Usuario1</td>
-			<td>Contraseña1</td>
-		</tr>
+	        <c:forEach items="${usuarios}" var="usuario">
+	          <tr>
+	             <td><a href="?op=modificar">Modificar</a><a href="?op=borrar">Borrar</a></td>
+	             <td>${usuario.nombre}</td>  
+	             <td>${usuario.pass}</td>          
+	          </tr>          
+	        </c:forEach>
+		
 		
 	</tbody>
 </table>

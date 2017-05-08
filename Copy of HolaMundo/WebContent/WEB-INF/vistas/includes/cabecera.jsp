@@ -16,6 +16,7 @@
 		<ul>
 			<li><a href="login">Login</a></li>
 			<li><a href="alta">Alta</a></li>
+			<li><a href="usuariocrud">UsuarioCRUD</a></li>
 			<li><a href="login?opcion=logout">Salir</a></li>
 		</ul>
 	</nav>
