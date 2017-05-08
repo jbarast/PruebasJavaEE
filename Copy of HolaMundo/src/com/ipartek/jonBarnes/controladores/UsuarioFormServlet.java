@@ -77,6 +77,7 @@ public class UsuarioFormServlet extends HttpServlet {
 			case "alta":
 				if (pass.equals(pass2)) {
 					dal.alta(usuario);
+					request.getParameterMap().remove("op");
 					request.getRequestDispatcher(UsuarioCRUDServlet.RUTA_SERVLET_LISTADO).forward(request, response);
 				} else {
 					usuario.setErrores("Las contraseñas no coinciden");
