@@ -75,10 +75,8 @@ public class UsuariosDALColeccion implements UsuariosDAL {
 		// El new Usuario[0], es un truco para que me genere siempre un Array
 		// con los datos.
 		// Estructura rara de Java.
-		// return usuarios.entrySet().toArray(new Usuario[0]);
-		return (Usuario[]) usuarios.entrySet().toArray(); // Metodo que no
-															// sabemos si cuela.
-															// En peligro.
+		return usuarios.entrySet().toArray(new Usuario[0]);
+		// return (Usuario[]) usuarios.entrySet().toArray(); // Asi no funciona.
 	}
 
 }
