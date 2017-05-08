@@ -33,7 +33,7 @@ Version: 08/05/2017
 	<tbody>
 	        <c:forEach items="${usuarios}" var="usuario">
 	          <tr>
-	             <td><a href="?op=modificar">Modificar</a><a href="?op=borrar">Borrar</a></td>
+	             <td><a href="?op=modificar&id">Modificar</a><a href="?op=borrar&id">Borrar</a></td>
 	             <td>${usuario.nombre}</td>  
 	             <td>${usuario.pass}</td>          
 	          </tr>          

@@ -17,10 +17,21 @@ import com.ipartek.ejemplos.javierlete.tipos.Usuario;
 
 /**
  * Servlet implementation class UsuarioCRUDServlet
+ * 
+ * @author jbarast
+ * @version 08/05/2017
+ * 
  */
 @WebServlet("/usuariocrud")
 public class UsuarioCRUDServlet extends HttpServlet {
+	/* Package */static final String RUTA_USUARIOCRUD = "/WEB-INF/vistas/usuariocrud.jsp";
 	private static final long serialVersionUID = 1L;
+	/* Package */static final String RUTA_FORMULARIO = "/WEB-INF/vistas/usuarioform.jsp"; // TODO
+																							// poner
+																							// la
+																							// ruta.
+	/* package */static final String RUTA_SERVLET_LISTADO = "/usuariocrud";
+	/* package */static final String RUTA_SERVLET_FORMULARIO = "/usuarioform";
 
 	/**
 	 * 
@@ -69,9 +80,40 @@ public class UsuarioCRUDServlet extends HttpServlet {
 			// Empaqueto en la request
 			request.setAttribute("usuarios", usuarios);
 
-			request.getRequestDispatcher("/WEB-INF/vistas/usuariocrud.jsp").forward(request, response);
-		}
-		// redirigomos los datos.
+			request.getRequestDispatcher(RUTA_USUARIOCRUD).forward(request, response);
 
+		} else {
+
+			// Variables.
+			String id = request.getParameter("id");
+			Usuario usuario = new Usuario();
+
+			// Hacemos un switch para los demas casos.
+			switch (op) {
+
+			// Alta
+			case "alta":
+				request.getRequestDispatcher(RUTA_FORMULARIO).forward(request, response);
+				break;
+
+			// Modificacion.
+			case "modificar":
+				usuario = dal.buscarPorId(id);
+				request.setAttribute("usuario", usuario);
+				request.getRequestDispatcher(RUTA_FORMULARIO).forward(request, response);
+				break;
+
+			// Borrar.
+			case "borrar":
+				request.getRequestDispatcher(RUTA_FORMULARIO).forward(request, response);
+				break;
+
+			// Default.
+			default:
+				request.getRequestDispatcher(RUTA_USUARIOCRUD).forward(request, response);
+
+			}
+
+		}
 	}
 }
